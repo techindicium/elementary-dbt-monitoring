@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: dim_elementary_models
+    description: "Tabela de dimensão composta pelos modelos."
+    columns:
+      - name: 'model_sk'
+        description: "Chave primária substituta. Composta por: model_id."
+        tests:
+          - unique
+          - not_null
+
+      - name: 'model_id'
+        description: "Coluna com a chave primária natural da tabela"
+        tests:
+          - unique
+          - not_null
+
+      - name: 'project_database_name'
+        description: "Coluna com o nome da database do projeto."
+
+      - name: 'schema_name'
+        description: "Coluna com o nome do schema de referência."
+
+      - name: 'materialization'
+        description: "Coluna com o tipo de materialização do modelo."
+
+      - name: 'model_depends_on_nodes'
+        description: "Coluna com as dependências do modelo."
+
+      - name: 'model_description'
+        description: "Coluna com a descrição do modelo."
+
+      - name: 'model_tags_name'
+        description: "Coluna com a tag do modelo."
+
+      - name: 'model_name'
+        description: "Coluna com o nome do modelo."
+
+      - name: 'table_type_mod'
+        description: "Coluna com o tipo de tabela a qual pertence o modelo, modificada para contemplar os modelos do elementary."
+
+      - name: 'dbt_model_path'
+        description: "Coluna com o caminho do diretório atual do modelo."
+
+      - name: 'model_generated_at'
+        description: "Coluna com a timestamp de geração do modelo."
