@@ -1,6 +1,6 @@
 with
     util_days as (
-        select * 
+        select date_day 
         from {{ ref('dbt_utils_day') }}
     )
     , sources as (

@@ -3,19 +3,37 @@ with
         select
             source_freshness_execution_id
             , unique_id as source_freshness_id
-            , dateadd(hours, -3, cast(max_loaded_at as timestamp)) as source_max_loaded_at
-            , dateadd(hours, -3, cast(snapshotted_at as timestamp)) as source_snapshotted_at
-            , dateadd(hours, -3, cast(generated_at as timestamp)) as source_freshness_generated_at
+            , cast(max_loaded_at as timestamp) as max_loaded_at
+            , cast(snapshotted_at as timestamp) as snapshotted_at
+            , cast(generated_at as timestamp) as generated_at
             , cast(generated_at as date) as source_generate_date
             , cast(max_loaded_at_time_ago_in_s as double precision) as source_max_loaded_at_seconds
             , status as source_status
             , upper(error) as source_error
-            , dateadd(hours, -3, cast(compile_started_at as timestamp)) as source_compile_started_at
-            , dateadd(hours, -3, cast(compile_completed_at as timestamp)) as source_compile_completed_at
-            , dateadd(hours, -3, cast(execute_started_at as timestamp)) as source_execute_started_at
-            , dateadd(hours, -3, cast(execute_completed_at as timestamp)) as source_execute_completed_at
+            , cast(compile_started_at as timestamp) as compile_started_at
+            , cast(compile_completed_at as timestamp) as compile_completed_at
+            , cast(execute_started_at as timestamp) as execute_started_at
+            , cast(execute_completed_at as timestamp) as execute_completed_at
             , invocation_id
         from {{ source('raw_dbt_monitoring', 'dbt_source_freshness_results') }}
     )
+    , utils_dateadd as (
+        select
+            source_freshness_execution_id
+            , source_freshness_id
+            , {{ dbt_utils.dateadd('hours', -3, 'max_loaded_at') }} as source_max_loaded_at
+            , {{ dbt_utils.dateadd('hours', -3, 'snapshotted_at') }} as source_snapshotted_at
+            , {{ dbt_utils.dateadd('hours', -3, 'generated_at') }} as source_freshness_generated_at
+            , source_generate_date
+            , source_max_loaded_at_seconds
+            , source_status
+            , source_error
+            , {{ dbt_utils.dateadd('hours', -3, 'compile_started_at') }} as source_compile_started_at
+            , {{ dbt_utils.dateadd('hours', -3, 'compile_completed_at') }} as source_compile_completed_at
+            , {{ dbt_utils.dateadd('hours', -3, 'execute_started_at') }} as source_execute_started_at
+            , {{ dbt_utils.dateadd('hours', -3, 'execute_completed_at') }} as source_execute_completed_at
+            , invocation_id
+        from renamed
+    )
 select *
-from renamed
+from utils_dateadd

@@ -23,9 +23,29 @@ with
             end as table_type_mod
             , package_name
             , original_path
-            , dateadd(hours, -3, cast(generated_at as timestamp)) as model_generated_at
+            , cast(generated_at as timestamp) as generated_at
             , metadata_hash
         from {{ source('raw_dbt_monitoring', 'dbt_models') }}
     )
+    , utils_dateadd as (
+        select distinct
+            model_id
+            , checksum
+            , materialization
+            , model_tags
+            , project_database_name
+            , schema_name
+            , model_depends_on_macros
+            , model_depends_on_nodes
+            , model_description
+            , dbt_model_path
+            , model_name
+            , table_type_mod
+            , package_name
+            , original_path
+            , {{ dbt_utils.dateadd('hours', -3, 'generated_at') }}  as model_generated_at
+            , metadata_hash
+        from renamed
+    )
 select *
-from renamed
+from utils_dateadd

@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: raw_dbt_monitoring
     description: "Dados brutos extraídos dos modelos gerados pelo pacote elementary."
-    schema: dev_gabriel_amante_elementary
+    schema: "{{ target.schema + '_elementary' }}"
     freshness:
       warn_after: {count: 1, period: day}
       error_after: {count: 2, period: day}

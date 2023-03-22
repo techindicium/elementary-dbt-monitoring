@@ -15,9 +15,29 @@ with
             , path as dbt_source_path
             , source_description
             , description as source_table_description
-            , dateadd(hours, -3, cast(generated_at as timestamp)) as source_generated_at
+            , cast(generated_at as timestamp) generated_at
             , metadata_hash
         from {{ source('raw_dbt_monitoring', 'dbt_sources') }}
     )
+    , utils_dateadd as (
+        select distinct
+            source_id
+            , project_database_name
+            , schema_name
+            , source_name
+            , table_name
+            , loaded_at_field
+            , freshness_warn_after
+            , freshness_error_after
+            , relation_name
+            , source_tags
+            , package_name
+            , dbt_source_path
+            , source_description
+            , source_table_description
+            , {{ dbt_utils.dateadd('hours', -3, 'generated_at') }} as source_generated_at
+            , metadata_hash
+        from renamed
+    )
 select *
-from renamed
+from utils_dateadd
