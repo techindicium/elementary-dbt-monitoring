@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: dim_elementary_tests
+    description: "Tabela de dimensão composta pelos testes. Os 'tests' contemplam os testes nativos feitos no projetos."
+    columns:
+      - name: 'test_sk'
+        description: "Chave primária substituta. Composta por: test_id."
+        tests:
+          - unique
+          - not_null
+
+      - name: 'test_id'
+        description: "Chave primária natural da tabela."
+        tests:
+          - unique
+          - not_null
+
+      - name: 'project_database_name'
+        description: "Coluna com o nome da database do projeto."
+
+      - name: 'schema_name'
+        description: "Coluna com o nome do schema de referência."
+
+      - name: 'test_name'
+        description: "Coluna com o nome do teste completo, que é uma concatenação de 'test_short_name'.'test_column_name'."
+
+      - name: 'test_short_name'
+        description: "Coluna com o nome específico do teste."
+
+      - name: 'test_type_mod'
+        description: "Coluna com o nome específico do teste modificado para contemplar os testes de dados."
+
+      - name: 'test_column_name'
+        description: "Coluna com o nome da coluna de teste."
+
+      - name: 'test_severity'
+        description: "Coluna com a gravidade especificada do teste."
+
+      - name: 'test_tags'
+        description: "Coluna com as tags configuradas no teste."
+
+      - name: 'test_depends_on_macros'
+        description: "Coluna com as dependências em macro do teste."
+
+      - name: 'test_depends_on_nodes'
+        description: "Coluna com as dependências em modelos do teste."
+
+      - name: 'parent_model_unique_id'
+        description: "Coluna com a id do modelo que foi testado."
+
+      - name: 'test_description'
+        description: "Coluna com a descrição do teste."
+
+      - name: 'package_name'
+        description: "Coluna com o nome do projeto dbt."
+
+      - name: 'test_type'
+        description: "Coluna com os tipos de teste."
+
+      - name: 'dbt_test_path'
+        description: "Coluna com o caminho do teste."
+
+      - name: 'test_generated_at'
+        description: "Coluna com a timestamp de geração do teste."

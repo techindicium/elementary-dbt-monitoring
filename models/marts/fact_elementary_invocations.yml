@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: fact_elementary_invocations
+    description: "Tabela de dimensão com as invocations (run, test e build)."
+    columns:
+      - name: 'invocation_sk'
+        description: "Chave primária substituta. Composta por: invocation_id."
+        tests:
+          - unique
+          - not_null
+
+      - name: 'invocation_id'
+        description: "Chave primária natural da dimensão."
+        tests:
+          - unique
+
+      - name: 'job_id'
+        description: "Coluna com a identificação do job."
+
+      - name: 'job_name'
+        description: "Coluna com o nome do job."
+
+      - name: 'job_run_id'
+        description: "Coluna com a identificação da execução do job."
+
+      - name: 'invocation_started_at'
+        description: "Coluna com timestamp de início da invocação."
+
+      - name: 'invocation_completed_at'
+        description: "Coluna com timestamp de fim da invocação."
+
+      - name: 'invocation_date'
+        description: "Coluna com a data da invocação."
+        tests:
+          - relationships:
+              to: ref('dbt_utils_day')
+              field: date_day
+
+      - name: 'dbt_invocation_command'
+        description: "Coluna com o comando dbt usado na invocação."
+
+      - name: 'is_full_refresh'
+        description: "Coluna com o indicativo se é full refresh."
+
+      - name: 'invocation_vars'
+        description: "Coluna com as variáveis configuradas na invocation."
+
+      - name: 'vars'
+        description: "Coluna com as variáveis globais configuradas no dbt_project."
+
+      - name: 'target_name'
+        description: "Coluna com o nome de destino."
+
+      - name: 'target_database'
+        description: "Coluna com o nome da base de dados de destino."
+
+      - name: 'target_schema'
+        description: "Coluna com o nome do schema de destino."
+
+      - name: 'target_profile_name'
+        description: "Coluna com o nome do perfil de destino."
+
+      - name: 'threads'
+        description: "Coluna com o número de subsistemas de processador foram utilizados."
+
+      - name: 'models_ran'
+        description: "Coluna com o modelo rodado no dbt run, dbt test ou dbt build."
+
+      - name: 'project_id'
+        description: "Coluna com a identificação do projeto."
+
+      - name: 'project_name'
+        description: "Coluna com o nome do projeto."

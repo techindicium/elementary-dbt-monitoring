@@ -1,0 +1,82 @@
+version: 2
+
+sources:
+  - name: raw_dbt_monitoring
+    description: "Dados brutos extraídos dos modelos gerados pelo pacote elementary."
+    schema: "{{ target.schema + '_elementary' }}"
+    freshness:
+      warn_after: {count: 1, period: day}
+      error_after: {count: 2, period: day}
+    loaded_at_field: cast(ind_extraction_date as timestamp)
+
+    tables:
+      - name: "elementary_test_results"
+        description: "Modelo incremental que traz os resultados de cada dbt test. Cada linha é o resultado de um teste específico e podem ser testes nativos do dbt, testes de pacote e testes do elementary."
+        columns:
+          - name: id
+            description: "Identificador único da tabela."
+            tests:
+              - unique
+              - not_null
+
+      - name: "dbt_sources"
+        description: "Tabela com os metadados sobre as fontes configuradas no projeto e nos pacotes do projeto, contendo as propriedades dessas fontes."
+        columns:
+          - name: unique_id
+            description: "Identificador único da tabela."
+            tests:
+              - unique
+              - not_null
+
+      - name: "dbt_models"
+        description: "Tabela que traz informações sobre todos os modelos pertencentes ao projeto."
+        columns:
+          - name: unique_id
+            description: "Identificador único da tabela."
+            tests:
+              - unique
+              - not_null
+
+      - name: "dbt_run_results"
+        description: "Modelo incremental que mostra os resultados de cada dbt run e dbt test para cada modelo do projeto."
+        columns:
+          - name: model_execution_id
+            description: "Identificador único da tabela."
+            tests:
+              - unique
+              - not_null
+
+      - name: "dbt_invocations"
+        description: "Tabela que traz informações sobre cada job (dbt run, dbt test e dbt build)."
+        columns:
+          - name: invocation_id
+            description: "Identificador único da tabela."
+            tests:
+              - unique
+              - not_null
+
+      - name: "dbt_source_freshness_results"
+        description: "Modelo que traz informações sobre cada atualização/mudanças nas sources."
+        columns:
+          - name: unique_id
+            description: "Identificador único da tabela."
+            tests:
+              - unique
+              - not_null
+          - name: source_freshness_execution_id
+            description: "Identificador de execução do modelo, que também é único."
+            tests:
+              - unique
+              - not_null
+
+      - name: "dbt_tests"
+        description: "Tabela que traz informações sobre cada teste."
+        columns:
+          - name: unique_id
+            description: "Identificador único da tabela."
+            tests:
+              - unique
+              - not_null
+              
+      - name: dbt_utils_day
+        description: "Tabela que contem dados das datas criadas a partir da macro do dbt_utils."

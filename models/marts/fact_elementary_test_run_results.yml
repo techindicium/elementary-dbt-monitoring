@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: fact_elementary_test_run_results
+    description: "Tabela de fatos de resultado de execução de testes dos modelos. Fornece informações sobre o status e número de falhas dos testes em função do tempo e tipo de teste."
+    columns:
+      - name: 'test_run_result_sk'
+        description: "Chave primária substituta. Composta por: fact_test_results.model_execution_id, fact_test_results.elementary_test_results_id, 'dim_tests.test_sk e invocations.invocation_sk"
+        tests:
+          - unique
+          - not_null
+
+      - name: 'test_fk'
+        description: "Chave estrangeira. Composta por: test_sk."
+        tests:
+          - relationships:
+              to: ref('dim_elementary_tests')
+              field: test_sk
+
+      - name: 'invocation_fk'
+        description: "Chave estrangeira. Composta por: invocation_sk."
+        tests:
+          - relationships:
+              to: ref('fact_elementary_invocations')
+              field: invocation_sk
+
+      - name: 'elementary_test_results_id'
+        description: "Coluna com timestamp de detecção do teste."
+
+      - name: 'model_execution_id'
+        description: "Coluna com timestamp de detecção do teste."
+
+      - name: 'test_detected_at'
+        description: "Coluna com timestamp de detecção do teste."
+        tests:
+          - relationships:
+              to: ref('dbt_utils_day')
+              field: date_day
+
+      - name: 'test_type'
+        description: "Coluna que segmenta o tipo de teste: nativo ou dentro do elementary."
+
+      - name: 'test_status'
+        description: "Coluna com o status do teste feito."
+
+      - name: 'run_started_at'
+        description: "Coluna com a timestamp de início da execução dos testes."
+
+      - name: 'run_completed_at'
+        description: "Coluna com a timestamp de fim da execução dos testes."
+
+      - name: 'execution_time'
+        description: "Coluna que contabiliza o tempo de execução dos testes."
+
+      - name: 'test_failures'
+        description: "Coluna que contabiliza as falhas na execução dos testes."

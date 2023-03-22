@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: fact_elementary_source_freshness
+    description: "Tabela de fatos de Source Freshness. Fornece informações sobre as atualizações das fontes de dados dos modelos do elementary."
+    columns:
+      - name: 'source_freshness_sk'
+        description: "Chave primária substituta. Composta por: source_freshness_execution_id."
+        tests:
+          - unique
+          - not_null
+
+      - name: 'source_fk'
+        description: "Chave estrangeira. Composta por: source_sk."
+        tests:
+          - relationships:
+              to: ref('dim_elementary_sources')
+              field: source_sk
+
+      - name: 'invocation_fk'
+        description: "Chave estrangeira. Composta por: invocation_sk."
+        tests:
+          - relationships:
+              to: ref('fact_elementary_invocations')
+              field: invocation_sk
+
+      - name: 'source_snapshotted_at'
+        description: "Coluna com timestamp de snapshot da fonte."
+
+      - name: 'source_freshness_generated_at'
+        description: "Coluna com timestamp de quando a informação de source freshness da fonte foi gerada."
+
+      - name: 'source_generate_date'
+        description: "Coluna com a data de criação da informação da fonte na tabela dbt_source_freshness_results."
+        tests:
+          - relationships:
+              to: ref('dbt_utils_day')
+              field: date_day
+
+      - name: 'source_max_loaded_at_seconds'
+        description: "Coluna com o tempo requerido para fazer o carregamento dos dados na fonte."
+
+      - name: 'source_status'
+        description: "Coluna com o status da fonte."
+
+      - name: 'source_error'
+        description: "Coluna que indica erros na fonte."
+
+      - name: 'source_compile_started_at'
+        description: "Coluna com timestamp de início de compilação da fonte."
+
+      - name: 'source_compile_completed_at'
+        description: "Coluna com timestamp de fim de compilação da fonte."
+
+      - name: 'source_execute_started_at'
+        description: "Coluna com timestamp de início da execução da fonte."
+
+      - name: 'source_execute_completed_at'
+        description: "Coluna com timestamp de fim da execução da fonte."
