@@ -84,7 +84,7 @@ packages:
 
 ## Configuring models package
 
-The package's models can be configured in your `dbt_project.yml` by specifying the package under `models` and the start date of the airflow monitoring data must be declared in vars.
+The package's models can be configured in your `dbt_project.yml` by specifying the package under `models` and the start date of the dbt monitoring data must be declared in vars.
 
 ```
 models:
