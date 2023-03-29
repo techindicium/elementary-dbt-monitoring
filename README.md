@@ -40,7 +40,7 @@ models:
         +schema: 'elementary'
 ```
 
-2. Run `dbt run` to build the package inside your dbt project.
+2. Run `dbt run -m elementary` to build the package inside your dbt project.
 
 "This command will create tables that at first will be empty, but will be fed with the results of these executions of each “dbt run”, “dbt test” and “dbt build” within the project." 
 
