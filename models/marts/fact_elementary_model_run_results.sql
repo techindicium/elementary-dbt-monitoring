@@ -1,6 +1,6 @@
 with
     util_days as (
-        select date_day 
+        select cast(date_day as date) as date_day 
         from {{ ref('dbt_utils_day') }}
     )
     , models as (
