@@ -13,12 +13,12 @@ with
             , path as dbt_model_path
             , name as model_name
             , case
-                when model_name like '%fact_%' then 'Fact'
-                when model_name like '%dim_%' then 'Dim'
-                when model_name like '%stg_%' then 'Stg'
-                when model_name like '%agg_%' then 'Agg'
-                when model_name like '%bridge_%' then 'Bridge'
-                when dbt_model_path like '%edr/%' then 'Elementary'
+                when name like '%fact_%' then 'Fact'
+                when name like '%dim_%' then 'Dim'
+                when name like '%stg_%' then 'Stg'
+                when name like '%agg_%' then 'Agg'
+                when name like '%bridge_%' then 'Bridge'
+                when path like '%edr/%' then 'Elementary'
                 else 'Other'
             end as table_type_mod
             , package_name
@@ -43,7 +43,7 @@ with
             , table_type_mod
             , package_name
             , original_path
-            , {{ dbt_utils.dateadd('hours', -3, 'generated_at') }}  as model_generated_at
+            , {{ dbt_utils.dateadd('hour', -3, 'generated_at') }}  as model_generated_at
             , metadata_hash
         from renamed
     )

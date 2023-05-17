@@ -35,7 +35,7 @@ with
             , dbt_source_path
             , source_description
             , source_table_description
-            , {{ dbt_utils.dateadd('hours', -3, 'generated_at') }} as source_generated_at
+            , {{ dbt_utils.dateadd('hour', -3, 'generated_at') }} as source_generated_at
             , metadata_hash
         from renamed
     )

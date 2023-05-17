@@ -35,10 +35,10 @@ with
             , job_id
             , job_name
             , job_run_id
-            , {{ dbt_utils.dateadd('hours', -3, 'run_started_at') }} as invocation_started_at
-            , {{ dbt_utils.dateadd('hours', -3, 'run_completed_at') }} as invocation_completed_at
-            , {{ dbt_utils.dateadd('hours', -3, 'run_started_at') }} as invocation_date
-            , {{ dbt_utils.dateadd('hours', -3, 'generated_at') }} as invocation_generated_at
+            , {{ dbt_utils.dateadd('hour', -3, 'run_started_at') }} as invocation_started_at
+            , {{ dbt_utils.dateadd('hour', -3, 'run_completed_at') }} as invocation_completed_at
+            , {{ dbt_utils.dateadd('hour', -3, 'run_started_at') }} as invocation_date
+            , {{ dbt_utils.dateadd('hour', -3, 'generated_at') }} as invocation_generated_at
             , dbt_invocation_command
             , dbt_version
             , elementary_version

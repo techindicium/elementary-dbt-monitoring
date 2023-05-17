@@ -30,6 +30,7 @@ with
             , compile_started_at
             , compile_completed_at
             , rows_affected
+            , query_id
             , is_full_refresh
             , failures
         from {{ ref('stg_elementary_dbt_run_results') }}
@@ -52,6 +53,7 @@ with
             , run_results.compile_started_at
             , run_results.compile_completed_at
             , run_results.rows_affected
+            , run_results.query_id
             , run_results.is_full_refresh
             , row_number() over (
                 partition by run_results.run_result_id

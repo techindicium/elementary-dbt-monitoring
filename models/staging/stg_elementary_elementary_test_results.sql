@@ -7,7 +7,7 @@ with
             , test_unique_id as test_id
             , model_unique_id as model_id
             , invocation_id
-            , {{ dbt_utils.dateadd('hours', -3, 'detected_at') }} as test_detected_at
+            , {{ dbt_utils.dateadd('hour', -3, 'detected_at') }} as test_detected_at
             , database_name as project_database_name
             , schema_name
             , table_name
