@@ -8,11 +8,11 @@ with
             , type as test_type
             , short_name as test_short_name
             , case
-                when test_type = 'singular' then 'singular'
-                when test_type = 'generic' and test_short_name = 'not_null' then 'not_null'
-                when test_type = 'generic' and test_short_name = 'unique' then 'unique'
-                when test_type = 'generic' and test_short_name = 'relationships' then 'relationships'
-                when test_type = 'generic' and test_short_name = 'accepted_values' then 'accepted_values'
+                when type = 'singular' then 'singular'
+                when type = 'generic' and short_name = 'not_null' then 'not_null'
+                when type = 'generic' and short_name = 'unique' then 'unique'
+                when type = 'generic' and short_name = 'relationships' then 'relationships'
+                when type = 'generic' and short_name = 'accepted_values' then 'accepted_values'
                 else 'other'
             end as test_type_mod
             , alias

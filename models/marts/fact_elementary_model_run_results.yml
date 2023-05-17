@@ -30,7 +30,7 @@ models:
           - relationships:
               to: ref('dbt_utils_day')
               field: date_day
-              
+
       - name: 'invocation_status'
         description: "Coluna com o status da invocação."
 
@@ -57,6 +57,9 @@ models:
 
       - name: 'rows_affected'
         description: "Coluna com o número de linhas afetadas nos modelos."
+
+      - name: 'query_id'
+        description: "Query ID in the data warehouse, if returned by the adapter (currently only supported in Snowflake, is null for any other adapter)."
 
       - name: 'is_full_refresh'
         description: "Coluna que indica se houve um full_refresh na execução do modelo."
