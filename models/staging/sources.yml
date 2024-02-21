@@ -77,6 +77,9 @@ sources:
             tests:
               - unique
               - not_null
-              
+
       - name: dbt_utils_day
         description: "Tabela que contem dados das datas criadas a partir da macro do dbt_utils."
+
+      - name: "test_result_rows"
+        description: "Tabela com ID dos resultados dos testes e a contagem de testes."
