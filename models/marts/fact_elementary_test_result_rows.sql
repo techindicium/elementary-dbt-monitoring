@@ -45,6 +45,13 @@ with
             , test_failures
         from {{ ref('stg_elementary_elementary_test_results') }}
     )
+    , tests_result_row as (
+        select
+            elementary_test_results_id
+            , test_result_row
+            , test_detected_at
+        from {{ ref('stg_elementary_test_result_rows') }}
+    )
     , fact_test_results as (
         select
             elementary_test_results.elementary_test_results_id
@@ -53,26 +60,11 @@ with
             , elementary_test_results.invocation_id as invocation_id
             , elementary_test_results.test_detected_at
             , elementary_test_results.test_type
-            , elementary_test_results.test_status
-            , elementary_test_results.test_failures
             , run_results.model_execution_id
-            , run_results.invocation_generated_at
-            , run_results.invocation_status
-            , run_results.resource_type
-            , run_results.execution_time
             , run_results.run_date
-            , run_results.run_started_at
-            , run_results.run_completed_at
-            , run_results.compile_started_at
-            , run_results.compile_completed_at
-            , run_results.rows_affected
-            , run_results.is_full_refresh
-            , run_results.failures
         from run_results
-        left join elementary_test_results
-            on run_results.invocation_id = elementary_test_results.invocation_id
-            and run_results.run_result_id = elementary_test_results.test_id
-        where elementary_test_results.test_type is not null
+        left join elementary_test_results on run_results.run_result_id = elementary_test_results.test_id
+        where test_type is not null
     )
     , join_with_dim as (
         select
@@ -81,22 +73,20 @@ with
                 , 'fact_test_results.elementary_test_results_id'
                 , 'dim_tests.test_sk'
                 , 'invocations.invocation_sk'
-            ]) }} as test_run_result_sk
-            , fact_test_results.elementary_test_results_id
-            , fact_test_results.model_execution_id
+                , 'tests_result_row.test_result_row'
+            ]) }} as test_run_result_row_sk
             , dim_tests.test_sk as test_fk
             , invocations.invocation_sk as invocation_fk
+            , fact_test_results.elementary_test_results_id
+            , fact_test_results.model_execution_id
             , util_days.date_day as test_detected_at
-            , fact_test_results.test_type
-            , fact_test_results.test_status
-            , fact_test_results.run_started_at
-            , fact_test_results.run_completed_at
-            , fact_test_results.execution_time
-            , fact_test_results.test_failures
+            , tests_result_row.test_result_row
         from fact_test_results
         left join dim_tests on fact_test_results.test_id = dim_tests.test_id
         left join invocations on fact_test_results.invocation_id = invocations.invocation_id
         left join util_days on fact_test_results.test_detected_at = util_days.date_day
+        left join tests_result_row on fact_test_results.elementary_test_results_id = tests_result_row.elementary_test_results_id
+        where tests_result_row.test_result_row is not null
     )
 select *
 from join_with_dim
