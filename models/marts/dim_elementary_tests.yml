@@ -22,6 +22,9 @@ models:
       - name: 'schema_name'
         description: "Coluna com o nome do schema de referência."
 
+      - name: 'model_name'
+        description: "Coluna com o nome do modelo."
+
       - name: 'test_name'
         description: "Coluna com o nome do teste completo, que é uma concatenação de 'test_short_name'.'test_column_name'."
 
