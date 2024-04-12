@@ -2,33 +2,33 @@ version: 2
 
 models:
   - name: fact_elementary_test_result_rows
-    description: "Tabela fato de IDs de resultado de testes e sua contagem."
+    description: "Fact table of test result IDs and their count."
     columns:
       - name: 'test_run_result_row_sk'
-        description: "Chave primária substituta. Composta por: 'fact_test_results.model_execution_id', 'fact_test_results.elementary_test_results_id', 'dim_tests.test_sk', 'invocations.invocation_sk'e 'tests_result_row.test_result_row'."
+        description: "Surrogate key. Composed of: 'fact_test_results.model_execution_id', 'fact_test_results.elementary_test_results_id', 'dim_tests.test_sk', 'invocations.invocation_sk', and 'tests_result_row.test_result_row'."
         tests:
           - unique
           - not_null
           
       - name: 'test_fk'
-        description: "Chave estrangeira. Composta por: test_sk."
+        description: "Foreign key. Composed of: test_sk."
         tests:
           - relationships:
               to: ref('dim_elementary_tests')
               field: test_sk
     
       - name: 'invocation_fk'
-        description: "Chave estrangeira. Composta por: invocation_sk."
+        description: "Foreign key. Composed of: invocation_sk."
         tests:
           - relationships:
               to: ref('fact_elementary_invocations')
               field: invocation_sk
 
       - name: 'elementary_test_results_id'
-        description: "Coluna com o ID do resultado do teste."
+        description: "Column with the ID of the test result."
 
       - name: 'model_execution_id'
-        description: "Coluna com o ID do modelo de execução do teste."
+        description: "Column with the ID of the model test execution."
 
       - name: 'test_result_row'
-        description: "Coluna que identifica quantos testes foram executados."
+        description: "Column that identifies the number of tests executed."

@@ -29,16 +29,17 @@ with
             , project_name
         from {{ source('raw_dbt_monitoring', 'dbt_invocations') }}
     )
-    , utils_dateadd as (
+
+    , dbt_dateadd as (
         select distinct
             invocation_id
             , job_id
             , job_name
             , job_run_id
-            , {{ dbt_utils.dateadd('hour', -3, 'run_started_at') }} as invocation_started_at
-            , {{ dbt_utils.dateadd('hour', -3, 'run_completed_at') }} as invocation_completed_at
-            , {{ dbt_utils.dateadd('hour', -3, 'run_started_at') }} as invocation_date
-            , {{ dbt_utils.dateadd('hour', -3, 'generated_at') }} as invocation_generated_at
+            , {{ dbt.dateadd("hour", -3, 'run_started_at') }} as invocation_started_at
+            , {{ dbt.dateadd('hour', -3, 'run_completed_at') }} as invocation_completed_at
+            , {{ dbt.dateadd('hour', -3, 'run_started_at') }} as invocation_date
+            , {{ dbt.dateadd('hour', -3, 'generated_at') }} as invocation_generated_at
             , dbt_invocation_command
             , dbt_version
             , elementary_version
@@ -56,5 +57,6 @@ with
             , project_name
         from renamed
     )
+
 select *
-from utils_dateadd
+from dbt_dateadd

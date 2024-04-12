@@ -28,7 +28,7 @@ with
     )
     , joined_with_sk as (
         select distinct
-            {{ dbt_utils.surrogate_key(['invocation_id']) }} as invocation_sk
+            {{ dbt_utils.generate_surrogate_key(['invocation_id']) }} as invocation_sk
             , invocation_id
             , job_id
             , job_name

@@ -68,7 +68,7 @@ with
     )
     , join_with_dim as (
         select
-            {{ dbt_utils.surrogate_key([
+            {{ dbt_utils.generate_surrogate_key([
                 'fact_test_results.model_execution_id'
                 , 'fact_test_results.elementary_test_results_id'
                 , 'dim_tests.test_sk'

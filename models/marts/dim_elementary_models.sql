@@ -16,7 +16,7 @@ with
     )
     , stg_models_with_sk as (
         select distinct
-            {{ dbt_utils.surrogate_key(['model_id']) }} as model_sk
+            {{ dbt_utils.generate_surrogate_key(['model_id']) }} as model_sk
             , *
         from stg_models
     )

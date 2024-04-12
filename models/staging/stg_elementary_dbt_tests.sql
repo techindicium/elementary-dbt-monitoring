@@ -35,5 +35,6 @@ with
             , metadata_hash
         from {{ source('raw_dbt_monitoring', 'dbt_tests') }}
     )
+
 select *
 from source

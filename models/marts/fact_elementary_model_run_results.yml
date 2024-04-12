@@ -2,67 +2,64 @@ version: 2
 
 models:
   - name: fact_elementary_model_run_results
-    description: "Tabela de fatos de resultado de execução de testes dos modelos. Fornece informações sobre o status e número de falhas dos testes em função do tempo e tipo de teste."
+    description: "Fact table about models execution run results. Provides information about models run status, execution time, failures, and other relevant information."
     columns:
       - name: 'model_run_result_sk'
-        description: "Chave primária substituta. Composta por: model_execution_id, run_result_id, model_sk."
+        description: "Surrogate key. Composed of: model_execution_id, run_result_id, model_sk."
         tests:
           - unique
           - not_null
 
       - name: 'model_fk'
-        description: "Chave estrangeira. Composta por: model_sk."
+        description: "Foreign key. Composed of: model_sk."
         tests:
           - relationships:
               to: ref('dim_elementary_models')
               field: model_sk
 
       - name: 'invocation_fk'
-        description: "Chave estrangeira. Composta por: invocation_sk."
+        description: "Foreign key. Composed of: invocation_sk."
         tests:
           - relationships:
               to: ref('fact_elementary_invocations')
               field: invocation_sk
 
       - name: 'run_date'
-        description: "Coluna com a data que o modelo foi executado."
+        description: "Column with the date the model was executed."
         tests:
           - relationships:
               to: ref('dbt_utils_day')
               field: date_day
-
+              
       - name: 'invocation_status'
-        description: "Coluna com o status da invocação."
+        description: "Column with the invocation status."
 
       - name: 'resource_type'
-        description: "Coluna com o tipo do recurso."
+        description: "Column with the resource type."
 
       - name: 'execution_time'
-        description: "Coluna que contabiliza o tempo de execução dos modelos."
+        description: "Column with the execution time of the models."
 
       - name: 'failures'
-        description: "Coluna que contabiliza as falhas na execução dos modelos."
+        description: "Column with the number of failures in the execution of the models."
 
       - name: 'run_started_at'
-        description: "Coluna com a timestamp de início da execução dos modelos."
+        description: "Column with the timestamp of the start of the model execution."
 
       - name: 'run_completed_at'
-        description: "Coluna com a timestamp de fim da execução dos modelos."
+        description: "Column with the timestamp of the end of the model execution."
 
       - name: 'compile_started_at'
-        description: "Coluna com a timestamp de início da compilação dos modelos."
+        description: "Column with the timestamp of the start of the model compilation."
 
       - name: 'compile_completed_at'
-        description: "Coluna com a timestamp de fim da compilação dos modelos."
+        description: "Column with the timestamp of the end of the model compilation."
 
       - name: 'rows_affected'
-        description: "Coluna com o número de linhas afetadas nos modelos."
-
-      - name: 'query_id'
-        description: "Query ID in the data warehouse, if returned by the adapter (currently only supported in Snowflake, is null for any other adapter)."
+        description: "Column with the number of rows affected in the models."
 
       - name: 'is_full_refresh'
-        description: "Coluna que indica se houve um full_refresh na execução do modelo."
+        description: "Column that indicates if there was a full refresh in the model execution."
 
       - name: 'model_invocation_reverse_index'
-        description: "Coluna com o cardinal de execução do modelo específico."
+        description: "Column with the cardinality of the specific model execution."

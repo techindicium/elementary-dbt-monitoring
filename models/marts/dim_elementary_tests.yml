@@ -2,67 +2,64 @@ version: 2
 
 models:
   - name: dim_elementary_tests
-    description: "Tabela de dimensão composta pelos testes. Os 'tests' contemplam os testes nativos feitos no projetos."
+    description: "Dimension table consisting of tests. The 'tests' include the native tests implemented on the projects."
     columns:
       - name: 'test_sk'
-        description: "Chave primária substituta. Composta por: test_id."
+        description: "Surrogate key created from: test_id."
         tests:
           - unique
           - not_null
 
       - name: 'test_id'
-        description: "Chave primária natural da tabela."
+        description: "Table natural  key."
         tests:
           - unique
           - not_null
 
       - name: 'project_database_name'
-        description: "Coluna com o nome da database do projeto."
+        description: "Column with the project's database name."
 
       - name: 'schema_name'
-        description: "Coluna com o nome do schema de referência."
-
-      - name: 'model_name'
-        description: "Coluna com o nome do modelo."
+        description: "Column with the schema name."
 
       - name: 'test_name'
-        description: "Coluna com o nome do teste completo, que é uma concatenação de 'test_short_name'.'test_column_name'."
+        description: "Column with the test full name, which is a concatenation of 'test_short_name'.'test_column_name'."
 
       - name: 'test_short_name'
-        description: "Coluna com o nome específico do teste."
+        description: "Column with the specific test name."
 
       - name: 'test_type_mod'
-        description: "Coluna com o nome específico do teste modificado para contemplar os testes de dados."
+        description: "Column with the specific test name modified to include data tests."
 
       - name: 'test_column_name'
-        description: "Coluna com o nome da coluna de teste."
+        description: "Column with the test column name."
 
       - name: 'test_severity'
-        description: "Coluna com a gravidade especificada do teste."
+        description: "Column with the severity configured for the test."
 
       - name: 'test_tags'
-        description: "Coluna com as tags configuradas no teste."
+        description: "Column with the tags configured in the test."
 
       - name: 'test_depends_on_macros'
-        description: "Coluna com as dependências em macro do teste."
+        description: "Column with the test macro dependencies."
 
       - name: 'test_depends_on_nodes'
-        description: "Coluna com as dependências em modelos do teste."
+        description: "Column with the test model dependencies."
 
       - name: 'parent_model_unique_id'
-        description: "Coluna com a id do modelo que foi testado."
+        description: "Column with the model id that was tested."
 
       - name: 'test_description'
-        description: "Coluna com a descrição do teste."
+        description: "Column with the test description."
 
       - name: 'package_name'
-        description: "Coluna com o nome do projeto dbt."
+        description: "Column with the dbt project name."
 
       - name: 'test_type'
-        description: "Coluna com os tipos de teste."
+        description: "Column with the test types."
 
       - name: 'dbt_test_path'
-        description: "Coluna com o caminho do teste."
+        description: "Column with the test path."
 
       - name: 'test_generated_at'
-        description: "Coluna com a timestamp de geração do teste."
+        description: "Column with the timestamp of when the test was generated."

@@ -2,58 +2,58 @@ version: 2
 
 models:
   - name: fact_elementary_source_freshness
-    description: "Tabela de fatos de Source Freshness. Fornece informações sobre as atualizações das fontes de dados dos modelos do elementary."
+    description: "Source Freshness fact table. Provides information about the updates of data sources for elementary models."
     columns:
       - name: 'source_freshness_sk'
-        description: "Chave primária substituta. Composta por: source_freshness_execution_id."
+        description: "Surrogate key. Created from: source_freshness_execution_id."
         tests:
           - unique
           - not_null
 
       - name: 'source_fk'
-        description: "Chave estrangeira. Composta por: source_sk."
+        description: "Foreign key. Composed of: source_sk."
         tests:
           - relationships:
               to: ref('dim_elementary_sources')
               field: source_sk
 
       - name: 'invocation_fk'
-        description: "Chave estrangeira. Composta por: invocation_sk."
+        description: "Foreign key. Composed of: invocation_sk."
         tests:
           - relationships:
               to: ref('fact_elementary_invocations')
               field: invocation_sk
 
       - name: 'source_snapshotted_at'
-        description: "Coluna com timestamp de snapshot da fonte."
+        description: "Column with the timestamp when the source was snapshotted."
 
       - name: 'source_freshness_generated_at'
-        description: "Coluna com timestamp de quando a informação de source freshness da fonte foi gerada."
+        description: "Column with timestamp when the source freshness information was generated."
 
       - name: 'source_generate_date'
-        description: "Coluna com a data de criação da informação da fonte na tabela dbt_source_freshness_results."
+        description: "Column with the source creation date of the information in the dbt_source_freshness_results table."
         tests:
           - relationships:
               to: ref('dbt_utils_day')
               field: date_day
 
       - name: 'source_max_loaded_at_seconds'
-        description: "Coluna com o tempo requerido para fazer o carregamento dos dados na fonte."
+        description: "Column with the time required to load the source data."
 
       - name: 'source_status'
-        description: "Coluna com o status da fonte."
+        description: "Column with the source status."
 
       - name: 'source_error'
-        description: "Coluna que indica erros na fonte."
+        description: "Column indicating source errors."
 
       - name: 'source_compile_started_at'
-        description: "Coluna com timestamp de início de compilação da fonte."
+        description: "Column with the timestamp of when the source compilation started."
 
       - name: 'source_compile_completed_at'
-        description: "Coluna com timestamp de fim de compilação da fonte."
+        description: "Column with the timestamp of when the source compilation ended."
 
       - name: 'source_execute_started_at'
-        description: "Coluna com timestamp de início da execução da fonte."
+        description: "Column with the timestamp of when the source execution started."
 
       - name: 'source_execute_completed_at'
-        description: "Coluna com timestamp de fim da execução da fonte."
+        description: "Column with the timestamp of when the source execution ended."

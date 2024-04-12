@@ -17,7 +17,7 @@ with
     )
     , stg_sources_with_sk as (
         select
-            {{ dbt_utils.surrogate_key(['source_id']) }} as source_sk
+            {{ dbt_utils.generate_surrogate_key(['source_id']) }} as source_sk
             , *
         from stg_sources
     )

@@ -19,7 +19,8 @@ with
             , metadata_hash
         from {{ source('raw_dbt_monitoring', 'dbt_sources') }}
     )
-    , utils_dateadd as (
+
+    , dbt_dateadd as (
         select distinct
             source_id
             , project_database_name
@@ -35,9 +36,10 @@ with
             , dbt_source_path
             , source_description
             , source_table_description
-            , {{ dbt_utils.dateadd('hour', -3, 'generated_at') }} as source_generated_at
+            , {{ dbt.dateadd("hour", -3, 'generated_at') }} as source_generated_at
             , metadata_hash
         from renamed
     )
+
 select *
-from utils_dateadd
+from dbt_dateadd

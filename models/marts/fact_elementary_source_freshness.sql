@@ -33,7 +33,7 @@ with
     )
     , source_freshness_joined_with_sk as (
         select
-            {{ dbt_utils.surrogate_key(['source_freshness.source_freshness_execution_id']) }} as source_freshness_sk
+            {{ dbt_utils.generate_surrogate_key(['source_freshness.source_freshness_execution_id']) }} as source_freshness_sk
             , sources.source_sk as source_fk
             , invocations.invocation_sk as invocation_fk
             , util_days.date_day as source_generate_date

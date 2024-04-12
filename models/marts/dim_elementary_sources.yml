@@ -2,49 +2,49 @@ version: 2
 
 models:
   - name: dim_elementary_sources
-    description: "Tabela de dimensão com as fontes de dados dos projetos."
+    description: "Dimension table with the project sources data."
     columns:
       - name: 'source_sk'
-        description: "Chave primária substituta. Composta por: source_id."
+        description: "Surrogate key. Created from: source_id."
         tests:
           - unique
           - not_null
 
       - name: 'source_id'
-        description: "Chave primária natural da dimensão."
+        description: "Column with the table primary key."
         tests:
           - unique
           - not_null
 
       - name: 'source_name'
-        description: "Coluna com o nome da fonte."
+        description: "Column with the source name."
 
       - name: 'table_name'
-        description: "Coluna com o nome da tabela de referência."
+        description: "Column with the table name."
 
       - name: 'project_database_name'
-        description: "Coluna com o nome da database do projeto."
+        description: "Column with the project's database name."
 
       - name: 'schema_name'
-        description: "Coluna com o nome do schema de referência."
+        description: "Column with the schema name."
 
       - name: 'relation_name'
-        description: "Coluna com o concatenado de project_database_name.schema_name.table_name."
+        description: "Column with the concatenation of project_database_name.schema_name.table_name."
 
       - name: 'source_tags'
-        description: "Coluna com as tags utilizadas nas fontes."
+        description: "Column with the source tags."
 
       - name: 'package_name'
-        description: "Coluna com o nome do projeto dbt."
+        description: "Column with the dbt project name."
 
       - name: 'dbt_source_path'
-        description: "Coluna com o caminho dentro do projeto dbt."
+        description: "Column with the path within the dbt project."
 
       - name: 'source_description'
-        description: "Coluna com a descrição da fonte."
+        description: "Column with the source description."
 
       - name: 'source_table_description'
-        description: "Coluna com a descrição da tabela utlizada da fonte."
+        description: "Column with the source table description."
 
       - name: 'source_generated_at'
-        description: "Coluna com a timestamp de geração da fonte."
+        description: "Column with the timestamp of when the source was generated."
