@@ -32,7 +32,6 @@ jobs:
           commitish: main
           name: "elementary-dbt-monitoring ${{ steps.gettag.outputs.TAG }}"
           tag: ${{ github.ref }}
-          #publish: true
-          prerelease: True
+          publish: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
