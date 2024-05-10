@@ -30,7 +30,7 @@ jobs:
       - uses: release-drafter/release-drafter@v5
         with:
           commitish: main
-          name: "stellar-dbt ${{ steps.gettag.outputs.TAG }}"
+          name: "elementary-dbt-monitoring ${{ steps.gettag.outputs.TAG }}"
           tag: ${{ github.ref }}
           #publish: true
           prerelease: True
