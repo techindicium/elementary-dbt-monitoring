@@ -101,3 +101,9 @@ vars:
     elementary_dbt_monitoring:
         dbt_monitoring_start_date: cast('2022-08-01' as date)
 ```
+## New releases
+
+Want a new release (major/minor/patch) ?
+1. Push your modifications to main
+2. Push the tag you want, example: "git tag v1.0.1"
+3. git push origin tag v1.0.1 or git push --tags (warning: It pushes all tags you have)
