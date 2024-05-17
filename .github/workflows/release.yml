@@ -1,20 +1,15 @@
 name: Release Drafter and Publisher
 
 on:
-  push:
-    branches:
-      feature/enhancement-releases
-
-# on:
-#   pull_request:
-#     types: [closed]
+  pull_request:
+    types: [closed]
 
 permissions:
   contents: read
 
 jobs:
   new_release:
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     permissions:
       # write permission is required to create a github release
       contents: write
@@ -66,6 +61,6 @@ jobs:
           commitish: main
           name: "elementary-dbt-monitoring ${{ steps.nextversion.outputs.NEXT_VERSION }}"
           tag: ${{ steps.nextversion.outputs.NEXT_VERSION }}
-          publish: false
+          publish: True
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
