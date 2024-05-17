@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Get branch name
         id: getbranch
@@ -37,12 +39,11 @@ jobs:
         run: |
           echo ::set-output name=TAG::$(git describe --tags --abbrev=7)
 
-
       - name: Calculate next version
         id: nextversion
         run: |
           BRANCH_NAME="${{ steps.getbranch.outputs.BRANCH }}"
-          CURRENT_VERSION="${{ github.ref }}"
+          CURRENT_VERSION="${{ steps.gettag.outputs.TAG }}"
           echo "The version is $CURRENT_VERSION"
           IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
           if [[ $BRANCH_NAME =~ ^feature/ ]]; then
@@ -59,7 +60,7 @@ jobs:
         with:
           commitish: main
           name: "elementary-dbt-monitoring ${{ steps.gettag.outputs.TAG }}"
-          tag: ${{ github.ref }}
+          tag: ${{ steps.nextversion.outputs.NEXT_VERSION }}
           publish: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
