@@ -36,7 +36,7 @@ with
             , job_id
             , job_name
             , job_run_id
-            , {{ dbt.dateadd("hour", -3, 'run_started_at') }} as invocation_started_at
+            , {{ dbt.dateadd('hour', -3, 'run_started_at') }} as invocation_started_at
             , {{ dbt.dateadd('hour', -3, 'run_completed_at') }} as invocation_completed_at
             , {{ dbt.dateadd('hour', -3, 'run_started_at') }} as invocation_date
             , {{ dbt.dateadd('hour', -3, 'generated_at') }} as invocation_generated_at
