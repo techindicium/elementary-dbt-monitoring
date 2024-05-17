@@ -21,6 +21,9 @@ models:
 
       - name: 'schema_name'
         description: "Column with the schema name."
+      
+      - name: 'model_name'
+        description: "Column with the model name."
 
       - name: 'test_name'
         description: "Column with the test full name, which is a concatenation of 'test_short_name'.'test_column_name'."

@@ -57,6 +57,9 @@ models:
 
       - name: 'rows_affected'
         description: "Column with the number of rows affected in the models."
+      
+      - name: 'query_id'
+        description: "Query ID in the data warehouse, if returned by the adapter (currently only supported in Snowflake, is null for any other adapter)."
 
       - name: 'is_full_refresh'
         description: "Column that indicates if there was a full refresh in the model execution."
