@@ -44,7 +44,7 @@ jobs:
           BRANCH_NAME="${{ steps.getbranch.outputs.BRANCH }}"
           echo "The branch is $BRANCH_NAME"
           CURRENT_VERSION="${{ steps.gettag.outputs.TAG }}"
-          echo $CURRENT_VERSION
+          echo "The version is $CURRENT_VERSION"
           IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
           if [[ $BRANCH_NAME =~ ^feature/ ]]; then
             VERSION_PARTS[1]=$((VERSION_PARTS[1] + 1))
