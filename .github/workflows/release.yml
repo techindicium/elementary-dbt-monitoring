@@ -37,7 +37,7 @@ jobs:
       - name: Get latest abbreviated tag
         id: gettag
         run: |
-          echo ::set-output name=TAG::$(git describe --tags --abbrev=7)
+          echo ::set-output name=TAG::$(git describe --tags --abbrev=0)
 
       - name: Calculate next version
         id: nextversion
