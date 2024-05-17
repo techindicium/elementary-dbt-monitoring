@@ -2,8 +2,8 @@ name: Release Drafter and Publisher
 
 on:
   push:
-    tags:
-      - v*
+    branches:
+      feature/enhancement-releases
 
 # on:
 #   pull_request:
