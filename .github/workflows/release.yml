@@ -55,11 +55,14 @@ jobs:
           fi
           NEXT_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.${VERSION_PARTS[2]}"
           echo ::set-output name=NEXT_VERSION::"$NEXT_VERSION"
+        
+      - name: echo next version
+        run: echo ${{ steps.nextversion.outputs.NEXT_VERSION }}
 
       - uses: release-drafter/release-drafter@v5
         with:
           commitish: main
-          name: "elementary-dbt-monitoring ${{ steps.gettag.outputs.TAG }}"
+          name: "elementary-dbt-monitoring ${{ steps.nextversion.outputs.NEXT_VERSION }}"
           tag: ${{ steps.nextversion.outputs.NEXT_VERSION }}
           publish: false
         env:
