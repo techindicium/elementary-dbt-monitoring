@@ -35,12 +35,14 @@ jobs:
       - name: Get latest abbreviated tag
         id: gettag
         run: |
-            echo ::set-output name=TAG::$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo ::set-output name=TAG::$(git describe --tags --abbrev=7)
+
 
       - name: Calculate next version
         id: nextversion
         run: |
           BRANCH_NAME="${{ steps.getbranch.outputs.BRANCH }}"
+          echo "The branch is" BRANCH_NAME
           CURRENT_VERSION="${{ steps.gettag.outputs.TAG }}"
           echo CURRENT_VERSION
           IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
