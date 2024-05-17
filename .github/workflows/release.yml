@@ -34,19 +34,21 @@ jobs:
       # ${{ github.ref }} was not giving v* as tag name, but refs/tags/v* instead, so I had to abbreviate it
       - name: Get latest abbreviated tag
         id: gettag
-        run: echo ::set-output name=TAG::$(git describe --tags --abbrev=7)
+        run: |
+          echo ::set-output name=TAG::$(git describe --tags --abbrev=7)
 
       - name: Calculate next version
         id: nextversion
         run: |
           BRANCH_NAME="${{ steps.getbranch.outputs.BRANCH }}"
           CURRENT_VERSION="${{ steps.gettag.outputs.TAG }}"
+          echo CURRENT_VERSION
           IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
-          if [[ $BRANCH_NAME == feature/* ]]; then
+          if [[ $BRANCH_NAME =~ ^feature/ ]]; then
             VERSION_PARTS[1]=$((VERSION_PARTS[1] + 1))
-          elif [[ $BRANCH_NAME == patch/* ]]; then
+          elif [[ $BRANCH_NAME =~ ^patch/ ]]; then
             VERSION_PARTS[2]=$((VERSION_PARTS[2] + 1))
-          elif [[ $BRANCH_NAME == release/* ]]; then
+          elif [[ $BRANCH_NAME =~ ^release/ ]]; then
             VERSION_PARTS[0]=$((VERSION_PARTS[0] + 1))
           fi
           NEXT_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.${VERSION_PARTS[2]}"
