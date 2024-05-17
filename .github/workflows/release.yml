@@ -56,8 +56,10 @@ jobs:
           NEXT_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.${VERSION_PARTS[2]}"
           echo ::set-output name=NEXT_VERSION::"$NEXT_VERSION"
         
-      - name: echo next version
-        run: echo ${{ steps.nextversion.outputs.NEXT_VERSION }}
+      - name: Create and publish new tag
+        run: |
+            git tag ${{ steps.nextversion.outputs.NEXT_VERSION }}
+            git push origin ${{ steps.nextversion.outputs.NEXT_VERSION }}
 
       - uses: release-drafter/release-drafter@v5
         with:
