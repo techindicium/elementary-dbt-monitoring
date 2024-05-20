@@ -55,6 +55,7 @@ jobs:
             VERSION_PARTS[0]=$((VERSION_PARTS[0] + 1))
           fi
           NEXT_VERSION="v${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.${VERSION_PARTS[2]}"
+          echo "Next version: $NEXT_VERSION"
           echo ::set-output name=NEXT_VERSION::"$NEXT_VERSION"
         
       # - name: Create and publish new tag
