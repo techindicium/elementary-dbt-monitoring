@@ -1,20 +1,15 @@
 name: Release Drafter and Publisher
 
 on:
-  push:
-    branches:
-      - patch/fix-release-versioning
-
-# on:
-#   pull_request:
-#     types: [closed]
+   pull_request:
+     types: [closed]
 
 permissions:
   contents: read
 
 jobs:
   new_release:
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     permissions:
       # write permission is required to create a github release
       contents: write
@@ -31,7 +26,7 @@ jobs:
 
       - name: Get branch name
         id: getbranch
-        run: echo ::set-output name=BRANCH::${GITHUB_REF#refs/heads/}
+        run: echo ::set-output name=BRANCH::${GITHUB_HEAD_REF}
 
       # ${{ github.ref }} was not giving v* as tag name, but refs/tags/v* instead, so I had to abbreviate it
       - name: Get latest abbreviated tag
@@ -61,13 +56,12 @@ jobs:
         run: |
             git tag ${{ steps.nextversion.outputs.NEXT_VERSION }}
             git push origin ${{ steps.nextversion.outputs.NEXT_VERSION }}
-            echo "New tag created: ${{ steps.nextversion.outputs.NEXT_VERSION }}"
 
-      # - uses: release-drafter/release-drafter@v5
-      #   with:
-      #     commitish: main
-      #     name: "elementary-dbt-monitoring ${{ steps.nextversion.outputs.NEXT_VERSION }}"
-      #     tag: ${{ steps.nextversion.outputs.NEXT_VERSION }}
-      #     publish: True
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: release-drafter/release-drafter@v5
+        with:
+          commitish: main
+          name: "elementary-dbt-monitoring ${{ steps.nextversion.outputs.NEXT_VERSION }}"
+          tag: ${{ steps.nextversion.outputs.NEXT_VERSION }}
+          publish: True
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
