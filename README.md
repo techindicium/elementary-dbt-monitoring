@@ -12,7 +12,7 @@ dbt version
 * ```dbt version >= 1.0.0```
 
 dbt_utils package. Read more about them [here](https://hub.getdbt.com/dbt-labs/dbt_utils/latest/).
-* ```dbt-labs/dbt_utils version: 0.8.0``` 
+* ```dbt-labs/dbt_utils version: >=0.9.0 and <1.2.0``` 
 
 elementary package. Read more about them [here](https://docs.elementary-data.com/quickstart-cli).
 * ``` elementary-data/elementary version: 0.7.1 ```
