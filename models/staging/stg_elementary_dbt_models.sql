@@ -27,7 +27,8 @@ with
             , metadata_hash
         from {{ source('raw_dbt_monitoring', 'dbt_models') }}
     )
-    , utils_dateadd as (
+
+    , dbt_dateadd as (
         select distinct
             model_id
             , checksum
@@ -43,9 +44,10 @@ with
             , table_type_mod
             , package_name
             , original_path
-            , {{ dbt_utils.dateadd('hour', -3, 'generated_at') }}  as model_generated_at
+            , {{ dbt.dateadd('hour', -3, 'generated_at') }}  as model_generated_at
             , metadata_hash
         from renamed
     )
+
 select *
-from utils_dateadd
+from dbt_dateadd

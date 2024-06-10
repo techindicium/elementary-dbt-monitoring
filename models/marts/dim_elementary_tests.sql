@@ -51,7 +51,7 @@ with
     )
     , stg_tests_with_sk as (
         select distinct
-            {{ dbt_utils.surrogate_key(['test_id']) }} as test_sk
+            {{ dbt_utils.generate_surrogate_key(['test_id']) }} as test_sk
             , *
         from joined_tests_models
     )

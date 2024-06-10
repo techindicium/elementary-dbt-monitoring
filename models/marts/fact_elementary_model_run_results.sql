@@ -37,7 +37,7 @@ with
     )
     , model_run_results_joined_with_sk as (
         select distinct
-            {{ dbt_utils.surrogate_key(['run_results.model_execution_id', 'run_results.run_result_id', 'models.model_sk']) }} as model_run_result_sk
+            {{ dbt_utils.generate_surrogate_key(['run_results.model_execution_id', 'run_results.run_result_id', 'models.model_sk']) }} as model_run_result_sk
             , run_results.model_execution_id
             , models.model_sk as model_fk
             , invocations.invocation_sk as invocation_fk

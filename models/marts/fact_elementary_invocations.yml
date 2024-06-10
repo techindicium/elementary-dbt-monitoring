@@ -2,73 +2,73 @@ version: 2
 
 models:
   - name: fact_elementary_invocations
-    description: "Tabela de dimensão com as invocations (run, test e build)."
+    description: "Dimension table with dbt invocations (run, test, and build)."
     columns:
       - name: 'invocation_sk'
-        description: "Chave primária substituta. Composta por: invocation_id."
+        description: "Surrogate key. Composed of: invocation_id."
         tests:
           - unique
           - not_null
 
       - name: 'invocation_id'
-        description: "Chave primária natural da dimensão."
+        description: "Table natural key."
         tests:
           - unique
 
       - name: 'job_id'
-        description: "Coluna com a identificação do job."
+        description: "Column with the job identification."
 
       - name: 'job_name'
-        description: "Coluna com o nome do job."
+        description: "Column with the job name."
 
       - name: 'job_run_id'
-        description: "Coluna com a identificação da execução do job."
+        description: "Column with the job execution identification."
 
       - name: 'invocation_started_at'
-        description: "Coluna com timestamp de início da invocação."
+        description: "Column with the invocation start timestamp."
 
       - name: 'invocation_completed_at'
-        description: "Coluna com timestamp de fim da invocação."
+        description: "Column with the invocation end timestamp."
 
       - name: 'invocation_date'
-        description: "Coluna com a data da invocação."
+        description: "Column with the invocation date."
         tests:
           - relationships:
               to: ref('dbt_utils_day')
               field: date_day
 
       - name: 'dbt_invocation_command'
-        description: "Coluna com o comando dbt usado na invocação."
+        description: "Column with the dbt command used in the invocation."
 
       - name: 'is_full_refresh'
-        description: "Coluna com o indicativo se é full refresh."
+        description: "Column indicating if it is a full refresh."
 
       - name: 'invocation_vars'
-        description: "Coluna com as variáveis configuradas na invocation."
+        description: "Column with the variables configured in the invocation."
 
       - name: 'vars'
-        description: "Coluna com as variáveis globais configuradas no dbt_project."
+        description: "Column with the global variables configured in dbt_project."
 
       - name: 'target_name'
-        description: "Coluna com o nome de destino."
+        description: "Column with the target name."
 
       - name: 'target_database'
-        description: "Coluna com o nome da base de dados de destino."
+        description: "Column with the target database name."
 
       - name: 'target_schema'
-        description: "Coluna com o nome do schema de destino."
+        description: "Column with the target schema name."
 
       - name: 'target_profile_name'
-        description: "Coluna com o nome do perfil de destino."
+        description: "Column with the target profile name."
 
       - name: 'threads'
-        description: "Coluna com o número de subsistemas de processador foram utilizados."
+        description: "Column with the number of processor subsystems used."
 
       - name: 'models_ran'
-        description: "Coluna com o modelo rodado no dbt run, dbt test ou dbt build."
+        description: "Column with the model executed in dbt run, dbt test, or dbt build."
 
       - name: 'project_id'
-        description: "Coluna com a identificação do projeto."
+        description: "Column with the project identification."
 
       - name: 'project_name'
-        description: "Coluna com o nome do projeto."
+        description: "Column with the project name."

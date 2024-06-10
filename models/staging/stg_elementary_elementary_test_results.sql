@@ -7,7 +7,7 @@ with
             , test_unique_id as test_id
             , model_unique_id as model_id
             , invocation_id
-            , {{ dbt_utils.dateadd('hour', -3, 'detected_at') }} as test_detected_at
+            , {{ dbt.dateadd('hour', -3, 'detected_at') }} as test_detected_at
             , database_name as project_database_name
             , schema_name
             , table_name
@@ -27,5 +27,6 @@ with
             , result_rows
         from {{ source('raw_dbt_monitoring', 'elementary_test_results') }}
     )
+
 select *
 from renamed
