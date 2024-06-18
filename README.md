@@ -83,10 +83,11 @@ Schema name: The schema of elementary models, default is <your_dbt_project_schem
 
 ## Installation elementary-dbt-monitoring package
 
-1. Include this package in your `packages.yml` file.
+1. Include this package in your `packages.yml` file and specify the version you want to be installed
 ```yaml
 packages:
   - git: https://github.com/techindicium/elementary-dbt-monitoring # insert git SSH URL
+        ## revision: v0.1.0 (example, if specific version is needed)
 ```
 
 2. Run `dbt deps` to install the package.
