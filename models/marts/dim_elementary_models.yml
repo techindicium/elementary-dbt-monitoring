@@ -31,7 +31,7 @@ models:
       - name: 'model_description'
         description: "Column with the model's description."
 
-      - name: 'model_tags_name'
+      - name: 'model_tags'
         description: "Column with the model's tag."
 
       - name: 'model_name'
