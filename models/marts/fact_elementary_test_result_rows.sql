@@ -39,7 +39,7 @@ with
             elementary_test_results_id
             , test_id
             , invocation_id
-            , test_detected_at
+            , test_detected_date
             , test_type
             , test_status
             , test_failures
@@ -49,7 +49,11 @@ with
         select
             elementary_test_results_id
             , test_result_row
-            , test_detected_at
+            , test_detected_date
+            , row_number () over (
+                partition by elementary_test_results_id
+                order by test_detected_at
+            ) as rn
         from {{ ref('stg_elementary_test_result_rows') }}
     )
     , fact_test_results as (
@@ -58,7 +62,7 @@ with
             , elementary_test_results.test_id
             , run_results.run_result_id
             , elementary_test_results.invocation_id as invocation_id
-            , elementary_test_results.test_detected_at
+            , elementary_test_results.test_detected_date
             , elementary_test_results.test_type
             , run_results.model_execution_id
             , run_results.run_date
@@ -79,14 +83,15 @@ with
             , invocations.invocation_sk as invocation_fk
             , fact_test_results.elementary_test_results_id
             , fact_test_results.model_execution_id
-            , util_days.date_day as test_detected_at
+            , util_days.date_day as test_detected_date
             , tests_result_row.test_result_row
         from fact_test_results
         left join dim_tests on fact_test_results.test_id = dim_tests.test_id
         left join invocations on fact_test_results.invocation_id = invocations.invocation_id
-        left join util_days on fact_test_results.test_detected_at = util_days.date_day
+        left join util_days on fact_test_results.test_detected_date = util_days.date_day
         left join tests_result_row on fact_test_results.elementary_test_results_id = tests_result_row.elementary_test_results_id
-        where tests_result_row.test_result_row is not null
+        where (tests_result_row.test_result_row is not null
+            and rn = 1)
     )
 select *
 from join_with_dim
