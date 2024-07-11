@@ -44,7 +44,7 @@ with
             , table_type_mod
             , package_name
             , original_path
-            , {{ dbt.dateadd('hour', -3, 'generated_at') }}  as model_generated_at
+            , generated_at as model_generated_at
             , metadata_hash
         from renamed
     )

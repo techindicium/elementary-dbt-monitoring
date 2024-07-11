@@ -39,7 +39,7 @@ with
             elementary_test_results_id
             , test_id
             , invocation_id
-            , test_detected_at
+            , test_detected_date
             , test_type
             , test_status
             , test_failures
@@ -51,7 +51,7 @@ with
             , elementary_test_results.test_id
             , run_results.run_result_id
             , elementary_test_results.invocation_id as invocation_id
-            , elementary_test_results.test_detected_at
+            , elementary_test_results.test_detected_date
             , elementary_test_results.test_type
             , elementary_test_results.test_status
             , elementary_test_results.test_failures
@@ -86,7 +86,7 @@ with
             , fact_test_results.model_execution_id
             , dim_tests.test_sk as test_fk
             , invocations.invocation_sk as invocation_fk
-            , util_days.date_day as test_detected_at
+            , util_days.date_day as test_detected_date
             , fact_test_results.test_type
             , fact_test_results.test_status
             , fact_test_results.run_started_at
@@ -96,7 +96,7 @@ with
         from fact_test_results
         left join dim_tests on fact_test_results.test_id = dim_tests.test_id
         left join invocations on fact_test_results.invocation_id = invocations.invocation_id
-        left join util_days on fact_test_results.test_detected_at = util_days.date_day
+        left join util_days on fact_test_results.test_detected_date = util_days.date_day
     )
 select *
 from join_with_dim

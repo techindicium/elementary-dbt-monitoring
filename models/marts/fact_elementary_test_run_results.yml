@@ -30,7 +30,7 @@ models:
       - name: 'model_execution_id'
         description: "Column with the ID of the model test execution."
 
-      - name: 'test_detected_at'
+      - name: 'test_detected_date'
         description: "Column with the timestamp of test detection."
         tests:
           - relationships:
