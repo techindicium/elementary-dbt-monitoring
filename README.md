@@ -110,7 +110,6 @@ models:
 vars:
     elementary_dbt_monitoring:
         dbt_monitoring_start_date: cast('2022-08-01' as date)
-        dbt_elementary_schema: "elementary"
 ```
 ## New releases
 
