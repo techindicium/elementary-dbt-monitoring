@@ -1,4 +1,4 @@
-name: 'elementary_dbt_monitoring'
+name: 'dbt_transform_monitoring'
 version: '0.1.0'
 
 require-dbt-version: [">=1.0.0", "<2.0.0"]
@@ -9,3 +9,18 @@ target-path: "target"
 clean-targets: ["target", "dbt_modules", "dbt_packages"]
 macro-paths: ["macros"]
 log-path: "logs" 
+
+# This setting configures which "profile" dbt uses for this project.
+profile: "{{ env_var('DBT_PROFILE') }}"
+
+models:
+  dbt_transform_monitoring:
+    +persist_docs:
+      relation: true
+      columns: true
+    dbt_sf_transform_monitoring:
+      +schema: transform_monitoring
+      staging:
+        +materialized: ephemeral
+      marts:
+        +materialized: table
