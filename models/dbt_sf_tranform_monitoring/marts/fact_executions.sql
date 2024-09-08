@@ -1,15 +1,18 @@
 with
     run_results as (
+        /* Extract run results from the staging table */
         select *
         from {{ ref('stg_dbt_run_results') }}
     )
 
-    , invocations as (
+    , invocation_details as (
+        /* Extract invocations data from the staging table */
         select *
         from {{ ref('stg_dbt_invocations') }}
     )
 
-    , join_execution_models as (
+    , enriched_execution_data as (
+        /* Join run results with invocations to enrich run data with invocation-related information */
         select 
             run_results.*
             , invocations.job_id
@@ -44,15 +47,16 @@ with
             , invocations.job_run_url
             , invocations.account_id
         from run_results
-        left join invocations 
+        left join invocation_details as invocations 
             on run_results.invocation_id = invocations.invocation_id
     )
 
-    , aux_new_rules as (
+    , execution_analysis as (
+        /* Calculate execution times and derive last execution and last success flags */
         select
             exc.*
             , round((exc.execution_time/60), 3) as execution_time_min
-            , coalesce(exc.execute_started_at, exc.run_started_at) as consolidated_stated_at /*dm_inicio_execucao*/
+            , coalesce(exc.execute_started_at, exc.run_started_at) as consolidated_started_at
             , row_number() over (
                 partition by exc.resource_name
                 order by coalesce(
@@ -67,21 +71,13 @@ with
                     , exc.run_started_at
                 ) desc
             ) as last_execution_success_index
-        from join_execution_models as exc
+        from enriched_execution_data as exc
     )
 
-    , new_rules as (
+    , execution_flags as (
+        /* Add additional flags and extract relevant date truncations for the analysis */
         select
             *
-            -- , coalesce(
-            --     regexp_substr(adapter_response, '\\d+\\.\\d+\\sKiB'),
-            --     regexp_substr(adapter_response, '\\d+\\.\\d+\\sKB'),
-            --     regexp_substr(adapter_response, '\\d+\\.\\d+\\sMiB'),
-            --     regexp_substr(adapter_response, '\\d+\\.\\d+\\sMB'),
-            --     regexp_substr(adapter_response, '\\d+\\.\\d+\\sGiB'),
-            --     regexp_substr(adapter_response, '\\d+\\.\\d+\\sGB'),
-            --     '0.0'
-            -- ) as bytes_processed
             , date_trunc('day', generated_at) as generated_at_date
             , case
                 when last_execution_index = 1
@@ -90,7 +86,7 @@ with
                     false
             end as last_execution
             , case
-                when last_execution_index = 1 and consolidated_stated_at >= dateadd(day, -7, current_timestamp())
+                when last_execution_index = 1 and consolidated_started_at >= dateadd(day, -7, current_timestamp())
                     then true
                 when last_execution_index != 1
                     then null
@@ -103,8 +99,8 @@ with
                 else
                     false
             end as last_success_execution
-        from aux_new_rules
+        from execution_analysis
     )
 
 select *
-from new_rules
+from execution_flags
