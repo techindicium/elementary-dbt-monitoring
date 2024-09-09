@@ -12,15 +12,3 @@ log-path: "logs"
 
 # This setting configures which "profile" dbt uses for this project.
 profile: "{{ env_var('DBT_PROFILE') }}"
-
-models:
-  dbt_transform_monitoring:
-    +persist_docs:
-      relation: true
-      columns: true
-    dbt_sf_transform_monitoring:
-      +schema: transform_monitoring
-      staging:
-        +materialized: ephemeral
-      marts:
-        +materialized: table
