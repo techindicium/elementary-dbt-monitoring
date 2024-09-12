@@ -11,6 +11,12 @@ with
         from {{ ref('stg_dbt_invocations') }}
     )
 
+    , dim_models as (
+        /* Extract dim models for using it as foreign key*/
+        select *
+        from {{ ref('dim_models') }}
+    )
+
     , enriched_execution_data as (
         /* Join run results with invocations to enrich run data with invocation-related information */
         select 
@@ -102,5 +108,14 @@ with
         from execution_analysis
     )
 
+    , foreign_keys as (
+        select 
+            execution_flags.*
+            , dim_models.dim_models_pk as dim_models_fk 
+        from execution_flags
+        left join dim_models
+            on execution_flags.unique_id = dim_models.unique_id
+    )
+
 select *
-from execution_flags
+from foreign_keys

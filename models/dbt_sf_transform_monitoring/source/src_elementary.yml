@@ -158,7 +158,7 @@ sources:
 
           - name: generated_at
             data_type: string
-            description: ""
+            description: "Update time of the table."
 
           - name: name
             data_type: string
@@ -198,7 +198,7 @@ sources:
 
           - name: rows_affected
             data_type: int
-            description: ""
+            description: "rows affected in when runned"
 
           - name: full_refresh
             data_type: boolean
@@ -224,9 +224,77 @@ sources:
             data_type: string
             description: Response returned by the adapter (Fields will be different for each adapters).
 
-      - name: dbt_source_freshness_results
-      - name: dbt_tests
-      - name: test_result_rows
-      - name: elementary_test_results
-      - name: dbt_sources
       - name: dbt_models
+        description: >
+          Metadata about models in the project, including configuration and properties from the dbt graph.
+          Each row contains information about a single model.
+          Data is loaded every time this model is executed.
+          It is recommended to execute the model every time a change is merged to the project.
+        columns:
+          - name: unique_id
+            data_type: string
+            description: The unique id of the model.
+
+          - name: alias
+            data_type: string
+            description: "alias name"
+
+          - name: checksum
+            data_type: string
+            description: Model file checksum.
+
+          - name: materialization
+            data_type: string
+            description: The model materialization config.
+
+          - name: tags
+            data_type: string
+            description: Model tags property.
+
+          - name: meta
+            data_type: string
+            description: The content of 'meta' property key.
+
+          - name: owner
+            data_type: string
+            description: Model owner property (configured under 'meta' key).
+
+          - name: database_name
+            data_type: string
+            description: The model database name.
+
+          - name: schema_name
+            data_type: string
+            description: The model schema name.
+
+          - name: depends_on_macros
+            data_type: string
+            description: The macros the model directly depends on.
+
+          - name: depends_on_nodes
+            data_type: string
+            description: The nodes the model directly depends on.
+
+          - name: description
+            data_type: string
+            description: Model description.
+
+          - name: name
+            data_type: string
+            description: Model name.
+
+          - name: package_name
+            data_type: string
+            description: Package name of the model.
+
+          - name: original_path
+            data_type: string
+            description: Full path of the model file.
+
+          - name: path
+            data_type: string
+            description: Short path of the model file.
+
+          - name: generated_at
+            data_type: string
+            description: Update time of the table.
