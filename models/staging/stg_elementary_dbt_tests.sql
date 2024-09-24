@@ -1,6 +1,6 @@
 with
     source as (
-        select distinct
+        select
             unique_id as test_id
             , database_name as project_database_name
             , schema_name
@@ -34,6 +34,10 @@ with
             , cast(generated_at as timestamp) as test_generated_at
             , metadata_hash
         from {{ source('raw_dbt_monitoring', 'dbt_tests') }}
+        qualify row_number() over(
+            partition by test_id
+            order by test_generated_at desc
+        ) = 1
     )
 
 select *

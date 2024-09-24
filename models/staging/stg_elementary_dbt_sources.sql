@@ -1,6 +1,6 @@
 with
     renamed as (
-        select distinct
+        select
             unique_id as source_id
             , database_name as project_database_name
             , schema_name
@@ -18,10 +18,14 @@ with
             , cast(generated_at as timestamp) generated_at
             , metadata_hash
         from {{ source('raw_dbt_monitoring', 'dbt_sources') }}
+        qualify row_number() over(
+            partition by source_id
+            order by generated_at desc
+        ) = 1
     )
 
     , dbt_dateadd as (
-        select distinct
+        select
             source_id
             , project_database_name
             , schema_name
