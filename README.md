@@ -128,6 +128,23 @@ Or to CMD (Windows):
 
 `set ELEMENTARY_SOURCE_SCHEMA=elementary`
 
+## Deduplication of staging models
+
+We identify an issue involving duplication of IDs in some models. These staging models feed into dimension models, and the duplicates were causing inconsistencies in the data pipeline.
+
+The duplication of IDs in the staging models was propagating to both dimension and fact models, leading to potential inaccuracies in downstream processes. These duplications can negatively impact various use cases of this package, such as data analysis, reporting, and dashboards in data visualization tools, resulting in misleading insights.
+
+So, in the last update of this package, we've added a step to deduplicate this models. The deduplication is based on the ID and the generated_at timestamp. The following SQL criterion was applied:
+
+```sql
+
+qualify row_number() over (
+    partition by model_id -- source_id or test_id
+    order by generated_at desc
+) = 1
+
+```
+
 ## New releases
 
 Want a new release (major/minor/patch) ?
