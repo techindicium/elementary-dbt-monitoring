@@ -1,6 +1,6 @@
 with
     renamed as (
-        select distinct
+        select
             unique_id as model_id
             , checksum
             , materialization
@@ -26,10 +26,14 @@ with
             , cast(generated_at as timestamp) as generated_at
             , metadata_hash
         from {{ source('raw_dbt_monitoring', 'dbt_models') }}
+        qualify row_number() over(
+            partition by model_id
+            order by generated_at desc
+        ) = 1
     )
 
     , dbt_dateadd as (
-        select distinct
+        select
             model_id
             , checksum
             , materialization
