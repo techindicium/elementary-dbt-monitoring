@@ -145,6 +145,50 @@ qualify row_number() over (
 
 ```
 
+## Recommendations
+
+We strongly recommend that you use this package separatly from the production jobs. This is a way to prevent package-related issues from affecting your production jobs. 
+
+It has been observed that one possible issue with the package is related to its installation with the `dbt deps` command.
+
+A possible solution to this problem is just installing the package when the job that runs this package would be trigged. This ensures that althoug you've separeted the package from production jobs, the dbt deps command that will install all packages of your project don't beak anything in production.
+
+A possible way to do this is remain the packages.yml without the installation of the elementary_dbt_monitoring in your dbt project and have another yaml file in your dbt project folder, like `package_monitoring.yml`. So, the original yaml can be like this:
+
+```yml
+packages:
+  - package: dbt-labs/codegen
+    version: 0.12.1
+  - package: dbt-labs/dbt_utils
+    version: 1.1.1
+  ## Docs: https://docs.elementary-data.com
+  - package: elementary-data/elementary
+    version: 0.14.1
+  - package: calogica/dbt_expectations
+    version: 0.10.4
+
+```
+
+The monitoring package yaml can be like this:
+
+```yml
+    ## Dag Monitoring
+  - git: "https://github.com/techindicium/dbt-dag-monitoring.git"
+    revision: 0.21.1
+  ## Databricks Billing
+  - git: https://github.com/techindicium/dbt-databricks-billing
+    revision: 1.4.0
+  # Elementary dbt Monitoring
+  - git: https://github.com/techindicium/elementary-dbt-monitoring
+    revision: v2.1.0
+```
+
+And in your monitoring job you can run the following bash command before the `dbt deps`:
+
+```bash
+cat packages_monitoring.yml >> packages.yml
+```
+
 ## New releases
 
 Want a new release (major/minor/patch) ?
