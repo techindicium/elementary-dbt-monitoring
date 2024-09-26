@@ -151,7 +151,7 @@ We strongly recommend that you use this package separatly from the production jo
 
 It has been observed that one possible issue with the package is related to its installation with the `dbt deps` command.
 
-A possible solution to this problem is just installing the package when the job that runs this package would be trigged. This ensures that althoug you've separeted the package from production jobs, the dbt deps command that will install all packages of your project don't beak anything in production.
+A possible solution to this problem is just installing the package when the job that runs this package would be trigged. This ensures that although you've separeted the package from production jobs, the dbt deps command that will install all packages of your project don't beak anything in production.
 
 A possible way to do this is remain the packages.yml without the installation of the elementary_dbt_monitoring in your dbt project and have another yaml file in your dbt project folder, like `package_monitoring.yml`. So, the original yaml can be like this:
 
@@ -172,12 +172,6 @@ packages:
 The monitoring package yaml can be like this:
 
 ```yml
-    ## Dag Monitoring
-  - git: "https://github.com/techindicium/dbt-dag-monitoring.git"
-    revision: 0.21.1
-  ## Databricks Billing
-  - git: https://github.com/techindicium/dbt-databricks-billing
-    revision: 1.4.0
   # Elementary dbt Monitoring
   - git: https://github.com/techindicium/elementary-dbt-monitoring
     revision: v2.1.0
