@@ -34,7 +34,7 @@ models:
         description: "Column with the invocation date."
         tests:
           - relationships:
-              to: ref('dbt_utils_day')
+              to: ref('dbt_elementary_utils_day')
               field: date_day
 
       - name: 'dbt_invocation_command'

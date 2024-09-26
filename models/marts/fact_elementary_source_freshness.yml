@@ -34,7 +34,7 @@ models:
         description: "Column with the source creation date of the information in the dbt_source_freshness_results table."
         tests:
           - relationships:
-              to: ref('dbt_utils_day')
+              to: ref('dbt_elementary_utils_day')
               field: date_day
 
       - name: 'source_max_loaded_at_seconds'
